@@ -439,6 +439,117 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Contact Section */
+        .contact-section {
+            margin-bottom: 20px;
+        }
+
+        .contact-section h3 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .contact-button {
+            background: none;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 16px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .contact-button:hover {
+            background-color: rgba(80, 250, 123, 0.1);
+        }
+
+        html[data-theme="light"] .contact-button:hover {
+            background-color: rgba(56, 161, 105, 0.1);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        html[data-theme="light"] .modal {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: var(--content-bg);
+            border: 1px solid var(--border-color);
+            width: 90%;
+            max-width: 500px;
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 4px;
+            position: relative;
+            animation: modalAppear 0.3s ease;
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: var(--comment);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+        }
+
+        .modal-content h2 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .email-link {
+            display: inline-block;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin: 15px 0;
+            text-decoration: none;
+            border-bottom: 1px dashed var(--primary);
+            padding-bottom: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .email-link:hover {
+            opacity: 0.8;
+        }
+
+        .modal-description {
+            color: var(--comment);
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -512,9 +623,24 @@
 
     <footer id="contact">
         <div class="container">
+            <div class="contact-section">
+                <h3>Contact Us</h3>
+                <button id="contact-button" class="contact-button">sachin.dharashivkar@gmail.com</button>
+            </div>
             <p>© 2025 <span class="highlight">Athena Agents</span> | All rights reserved</p>
         </div>
     </footer>
+
+    <!-- Email Modal -->
+    <div id="email-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Get in Touch</h2>
+            <p>Send us an email at:</p>
+            <a href="mailto:sachin.dharashivkar@gmail.com" class="email-link">sachin.dharashivkar@gmail.com</a>
+            <p class="modal-description">We're excited to hear from you and discuss how Athena Agents can help with your AI needs.</p>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -543,6 +669,36 @@
                     themeIcon.className = 'fas fa-moon';
                 }
             }
+
+            // Modal functionality
+            const contactButton = document.getElementById('contact-button');
+            const emailModal = document.getElementById('email-modal');
+            const closeModal = document.querySelector('.close-modal');
+
+            contactButton.addEventListener('click', function() {
+                emailModal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+            });
+
+            closeModal.addEventListener('click', function() {
+                emailModal.style.display = 'none';
+                document.body.style.overflow = ''; // Restore scrolling
+            });
+
+            window.addEventListener('click', function(event) {
+                if (event.target === emailModal) {
+                    emailModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && emailModal.style.display === 'block') {
+                    emailModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            });
         });
     </script>
 </body>
