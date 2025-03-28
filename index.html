@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athena Agents | Superintelligent AI Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Color Schemes */
+        :root {
+            /* Dark mode (default) */
+            --primary: #50fa7b;
+            --secondary: #8be9fd;
+            --accent: #bd93f9;
+            --dark: #282a36;
+            --darker: #191a21;
+            --light: #f8f8f2;
+            --mid: #6272a4;
+            --comment: #6272a4;
+            --warning: #ffb86c;
+            --error: #ff5555;
+            --bg-color: var(--darker);
+            --text-color: var(--light);
+            --content-bg: rgba(40, 42, 54, 0.7);
+            --border-color: rgba(189, 147, 249, 0.1);
+            --header-border: rgba(189, 147, 249, 0.2);
+            --grid-color: rgba(189, 147, 249, 0.05);
+        }
+
+        /* Light mode */
+        html[data-theme="light"] {
+            --primary: #38a169;
+            --secondary: #3182ce;
+            --accent: #805ad5;
+            --dark: #f0e7db;
+            --darker: #f8f0e5;
+            --light: #2d3748;
+            --mid: #4a5568;
+            --comment: #718096;
+            --warning: #dd6b20;
+            --error: #e53e3e;
+            --bg-color: #f8f0e5;
+            --text-color: #2d3748;
+            --content-bg: rgba(255, 250, 240, 0.8);
+            --border-color: rgba(128, 90, 213, 0.1);
+            --header-border: rgba(128, 90, 213, 0.2);
+            --grid-color: rgba(128, 90, 213, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        /* Background Image */
+        .bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('reference.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+        
+        html[data-theme="light"] .bg-image {
+            opacity: 0.08;
+        }
+        
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(var(--grid-color) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -1;
+            transition: all 0.3s ease;
+        }
+        
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, 
+                               rgba(25, 26, 33, 0.7) 0%, 
+                               rgba(25, 26, 33, 0.95) 100%);
+            z-index: -1;
+            transition: all 0.3s ease;
+        }
+        
+        html[data-theme="light"] .bg-overlay {
+            background: radial-gradient(circle at center, 
+                               rgba(248, 240, 229, 0.7) 0%, 
+                               rgba(248, 240, 229, 0.95) 100%);
+        }
+        
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+        
+        /* Header */
+        header {
+            padding: 30px 0;
+            border-bottom: 1px solid var(--header-border);
+            transition: all 0.3s ease;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .logo::before {
+            content: "> ";
+            color: var(--primary);
+            font-weight: 400;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 20px;
+            padding: 5px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--primary);
+        }
+        
+        .theme-toggle:hover {
+            background-color: rgba(var(--primary-rgb), 0.1);
+        }
+        
+        /* Main Section */
+        .main-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 90px);
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .main-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                        transparent 0%, 
+                        rgba(25, 26, 33, 0.3) 20%, 
+                        rgba(25, 26, 33, 0.3) 80%, 
+                        transparent 100%);
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        html[data-theme="light"] .main-section::before {
+            background: linear-gradient(to bottom, 
+                        transparent 0%, 
+                        rgba(248, 240, 229, 0.3) 20%, 
+                        rgba(248, 240, 229, 0.3) 80%, 
+                        transparent 100%);
+        }
+        
+        .main-heading {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            letter-spacing: -1px;
+            line-height: 1.1;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .main-heading::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .sub-heading {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin: 0 auto 3rem auto;
+    color: var(--primary);
+    max-width: 800px;
+    opacity: 0.85;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+        
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            background-color: var(--content-bg);
+            padding: 40px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .terminal-bar {
+            background-color: var(--dark);
+            height: 30px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            border-bottom: 1px solid var(--header-border);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .terminal-title {
+            color: var(--comment);
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .terminal-circles {
+            display: flex;
+            margin-right: 15px;
+        }
+        
+        .circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        
+        .circle-red {
+            background-color: var(--error);
+        }
+        
+        .circle-yellow {
+            background-color: var(--warning);
+        }
+        
+        .circle-green {
+            background-color: var(--primary);
+        }
+        
+        .content-wrapper {
+            margin-top: 30px;
+            text-align: left;
+            position: relative;
+        }
+        
+        .content-line {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        .content-line::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .highlight {
+            color: var(--secondary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .final-statement {
+            font-weight: 600;
+            color: var(--primary);
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            position: relative;
+        }
+        
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature {
+            background-color: var(--content-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        html[data-theme="light"] .feature:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-header {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-header::before {
+            content: "#";
+            color: var(--accent);
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--header-border);
+            text-align: center;
+            color: var(--comment);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .button {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 10px 20px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+        
+        .button:hover {
+            background-color: rgba(80, 250, 123, 0.1);
+        }
+        
+        html[data-theme="light"] .button:hover {
+            background-color: rgba(56, 161, 105, 0.1);
+        }
+        
+        .button::after {
+            content: " →";
+        }
+        
+        @media (max-width: 768px) {
+            .main-heading {
+                font-size: 2.2rem;
+            }
+            
+            .sub-heading {
+                font-size: 1.2rem;
+            }
+            
+            .main-content {
+                padding: 30px 20px;
+            }
+            
+            .features-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-image"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-overlay"></div>
+    
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">athena<span>agents</span></a>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light mode">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="main-section">
+        <div class="container">
+            <h1 class="main-heading">Superintelligent agents are closer than ever.</h1>
+            <h2 class="sub-heading">The future of AI is here. And we're building it.</h2>
+            
+            <div class="main-content">
+                <div class="terminal-bar">
+                    <div class="terminal-circles">
+                        <div class="circle circle-red"></div>
+                        <div class="circle circle-yellow"></div>
+                        <div class="circle circle-green"></div>
+                    </div>
+                    <div class="terminal-title">athena-agents.md</div>
+                </div>
+                
+                <div class="content-wrapper">
+                    <div class="content-line">Building specialized, powerful, and reliable AI agents through expert model post-training is the defining technical frontier of our time.</div>
+                    
+                    <div class="content-line">We founded <span class="highlight">Athena Agents</span>, an organization solely committed to the complete spectrum of model enhancement—from precision fine-tuning to advanced post-training techniques and autonomous AI agents.</div>
+                    
+                    <div class="content-line">Athena Agents represents our purpose, expertise, and comprehensive approach. Our mission, name, and operations are unified, aligning our team's deep specialization, strategic partnerships, and agile methodologies toward a singular goal: enhancing AI performance beyond traditional limits.</div>
+                    
+                    <div class="content-line">By combining groundbreaking research with rigorous engineering, we have empowered models to excel at complex tasks, from mastering mathematics in competitive exams like JEE to solving real-world challenges requiring human-level reasoning.</div>
+                    
+                    <div class="content-line">At Athena Agents, we advance AI capabilities swiftly and reliably, ensuring our solutions are always robust, trustworthy, and ahead of industry standards.</div>
+                    
+                    <div class="final-statement">With Athena Agents, achieve AI that doesn't just scale—it excels.</div>
+                </div>
+            </div>
+            
+            <a href="#contact" class="button">Get in touch</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <div class="features-container">
+                <div class="feature">
+                    <h3 class="feature-header">Advanced Fine-Tuning</h3>
+                    <p>Our precision fine-tuning methodologies create specialized AI models that perform exceptionally well on domain-specific tasks.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3 class="feature-header">Autonomous Agents</h3>
+                    <p>We develop autonomous AI agents that can reason, plan, and execute complex tasks with minimal human intervention.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3 class="feature-header">Research Breakthroughs</h3>
+                    <p>Our team continually pushes the boundaries of AI capabilities through groundbreaking research and engineering.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <p>© 2025 <span class="highlight">Athena Agents</span> | All rights reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const htmlElement = document.documentElement;
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // Check if user has previously set a theme preference
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+            htmlElement.setAttribute('data-theme', currentTheme);
+            updateThemeIcon(currentTheme);
+            
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = htmlElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                htmlElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+            
+            function updateThemeIcon(theme) {
+                if (theme === 'dark') {
+                    themeIcon.className = 'fas fa-sun';
+                } else {
+                    themeIcon.className = 'fas fa-moon';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
